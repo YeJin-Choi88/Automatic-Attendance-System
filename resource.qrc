@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="image">
+    <file>image/cbnu_character.gif</file>
+    <file>image/image.png</file>
+  </qresource>
+</RCC>
