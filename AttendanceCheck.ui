@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>812</width>
     <height>600</height>
    </rect>
   </property>
@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>logo2.png</normaloff>logo2.png</iconset>
+    <normaloff>image/logo2.png</normaloff>image/logo2.png</iconset>
   </property>
   <property name="locale">
    <locale language="Korean" country="SouthKorea"/>
@@ -394,7 +394,7 @@
            <enum>QFrame::Box</enum>
           </property>
           <property name="text">
-           <string>TextLabel</string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -410,7 +410,7 @@
            <enum>QFrame::Box</enum>
           </property>
           <property name="text">
-           <string>TextLabel</string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -444,8 +444,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>28</height>
+     <width>812</width>
+     <height>22</height>
     </rect>
    </property>
   </widget>

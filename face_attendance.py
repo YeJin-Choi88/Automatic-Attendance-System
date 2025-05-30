@@ -8,7 +8,7 @@ from models.mtcnn import MTCNN
 from models.inception_resnet_v1 import InceptionResnetV1
 
 class FaceAttendanceSystem:
-    def __init__(self, check_image_path="유태현.jpg", model_ckpt_path='facenet_supcon_best_v5.pt'):
+    def __init__(self, model_ckpt_path='facenet_supcon_best_v5.pt'):
         self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
         self.yolo = YOLO("yolo11n-pose.pt")
@@ -23,15 +23,22 @@ class FaceAttendanceSystem:
         state_dict = {k.replace('module.', ''): v for k, v in state_dict.items()}
         self.resnet.load_state_dict(state_dict, strict=False)
 
-        self.check_img = Image.open(check_image_path).convert("RGB")
-        self.check_face = self.mtcnn(self.check_img)
-
         self.THRESHOLD = 0.3
         self.VIS_THR = 0.7
         self.idx = dict(r_sh=6, r_wr=10, l_sh=5, l_wr=9)
 
-    def recognize_and_check_attendance(self, frame):
-        result_text = ""
+    def load_check_face(self, image_path):
+        try:
+            img = Image.open(image_path).convert("RGB")
+            return self.mtcnn(img)
+        except Exception as e:
+            print(f"[ERROR] 기준 얼굴 이미지 로딩 실패: {e}")
+            return None
+
+    def recognize_and_check_attendance(self, frame, check_face):
+        if check_face is None:
+            return None, None, None
+
         frame = cv2.flip(frame, 1)
 
         # YOLO 포즈 예측
@@ -61,14 +68,14 @@ class FaceAttendanceSystem:
 
             input_face = self.mtcnn(crop)
 
-            if input_face is not None and self.check_face is not None:
+            if input_face is not None:
                 input_emb = F.normalize(self.resnet(input_face.unsqueeze(0).to(self.device)), dim=1)
-                check_emb = F.normalize(self.resnet(self.check_face.unsqueeze(0).to(self.device)), dim=1)
+                check_emb = F.normalize(self.resnet(check_face.unsqueeze(0).to(self.device)), dim=1)
 
                 sim = torch.matmul(check_emb, input_emb.T).item()
                 if sim >= self.THRESHOLD:
-                    return True, sim  # 출석 인정
+                    return True, sim, crop  # 출석 인정
                 else:
-                    return False, sim  # 출석 실패 (유사도 낮음)
+                    return False, sim, crop  # 출석 실패 (유사도 낮음)
 
-        return None, None  # 손 들지 않음 또는 얼굴 없음
+        return None, None, None  # 손 들지 않음 또는 얼굴 없음
