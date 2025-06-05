@@ -9,8 +9,12 @@
 2021042028   유태현
 ![image](https://github.com/user-attachments/assets/7672b8a4-3891-4540-bf22-c3c0c1b5be29)
 
+--------------
 
-
-
+아래의 파인튜닝한 모델을 다운받기
 
 finetuning model : https://drive.google.com/file/d/16mQx_FJi3UDD3ne5CXpVbQa_hxibgUWe/view?usp=sharing
+
+--------------
+
+
