@@ -191,13 +191,13 @@ class GUI(QMainWindow, form_class):
                 print("📭 오늘 더 이상 수업 없음")
         else:
             print(f"{day}요일에 해당하는 수업이 없습니다.")
-        if  hour == (next_hour-1) and minute == 27 and second >50 and not self.alarm_played:
+        if  hour == (next_hour-1) and minute == 41 and second >50 and not self.alarm_played:
             print(f"[{minute}:{second}] 🔊 Alarm starting")
             self.effect.stop()
             self.effect.play()
             self.alarm_played = True
 
-        if  hour == (next_hour-1) and minute == 28 and second == 1 and self.alarm_played:
+        if  hour == (next_hour-1) and minute == 42 and second == 1 and self.alarm_played:
             print(f"[{minute}:{second}] alarm stopping, start attendance_system")
             self.alarm_played = False
             self.start_attendance_system = True
