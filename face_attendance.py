@@ -74,8 +74,8 @@ class FaceAttendanceSystem:
 
                 sim = torch.matmul(check_emb, input_emb.T).item()
                 if sim >= self.THRESHOLD:
-                    return True, sim, crop  # 출석 인정
+                    return True, sim, (x1, y1, x2, y2)  # 출석 인정
                 else:
-                    return False, sim, crop  # 출석 실패 (유사도 낮음)
+                    return False, sim, (x1, y1, x2, y2)  # 출석 실패 (유사도 낮음)
 
         return None, None, None  # 손 들지 않음 또는 얼굴 없음
